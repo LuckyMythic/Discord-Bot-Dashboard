@@ -20,9 +20,6 @@ var exports = module.exports = {};
  * Required for starting the web server and to load the express app.
  * Version shows the current version of this project, not of the bot.
  *
- * Last updates: {@link https://goo.gl/yDFywF Commits from master branch}
- *
- * Check out and contribute to the project {@link https://goo.gl/DVJQem on GitHub}.
  *
  * @param client - Discord.js Client Object
  * @version 0.0.6.3
@@ -62,18 +59,6 @@ exports.startApp = function (/**Object*/ client) {
 
     app.get("/messages", (req, res) => {
         res.render("messages", {data: client, maintenanceStatus: maintenanceStatus});
-    });
-
-    app.get("/outputClient", (req, res) => {
-        let t0 = now();
-        console.log(bot.sendClientObject(t0));
-        res.redirect("/dashboard");
-    });
-
-    app.get("/outputGuilds", (req, res) => {
-        let t0 = now();
-        console.log(bot.sendGuildsObject(t0));
-        res.redirect("/dashboard");
     });
 
     app.get("/log", (req, res) => {
@@ -121,15 +106,6 @@ exports.startApp = function (/**Object*/ client) {
         res.redirect("/dashboard");
     });
 
-    app.get("/testingNewFunction", (req, res) => {
-
-        // Here you´re writing the new function or calling a new function.
-        bot.sendInvitesOfServers();
-
-        res.redirect("/");
-        console.log("\n>> Redirecting to /");
-    });
-
     // ---- POST
 
     app.post("/change-game-status" ,(req, res) => {
@@ -169,10 +145,7 @@ exports.startApp = function (/**Object*/ client) {
     // You may not heard about the package 'chalk'..
     // It is a package for coloring console output. Colors in outputs are important to give a output more attention when its needed.
 
-    // You can look inside the repository of chalk to understand how it works and how to use it.
-    // Repository: https://goo.gl/qfQ4Pv
-
-    app.listen(config.LISTENING_PORT, function () {
+    app.listen(config.LISTENING_PORT, '192.168.178.17',function () {
         console.log(chalk.cyanBright('>> Dashboard is online and running on port ' + config.LISTENING_PORT + '!\n'));
     });
 
@@ -264,8 +237,6 @@ exports.addLog = (/**Object*/logData) => {
         log.push(logData);
         fs.writeFile("./log.json", JSON.stringify(log, null, 3), (err) => {
             if(err) throw err;
-        }).catch(err => {
-        console.error(error);
-		})
+        })
     })
 };

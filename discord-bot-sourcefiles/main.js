@@ -1,3 +1,4 @@
+require('dotenv').config();
 var exports = module.exports = {};
 
 const fs = require("fs");
@@ -9,6 +10,34 @@ const botCommands = require("./bot-commands.json");
 const prv_config = require("../private_config.json");
 const now = require("performance-now");
 
+// -= Bot And Commands
+const discord = require("discord.js");
+const bot = new discord.Client();
+bot.commands = new discord.Collection();
+
+// --== File Manager (Command Handler) ==--
+
+fs.readdir( __dirname + "/commands/", (err, files) => {
+
+    if (err) console.log(err);
+
+    var jsFiles = files.filter(f => f.split(".").pop() === "js");
+
+    if (jsFiles.length <= 0) {
+        console.log("Kon geen files vinden!");
+        return;
+    }
+
+    jsFiles.forEach((f, i) => {
+
+        var fileGet = require(`${__dirname}/commands/${f}`);
+        console.log(`De file ${f} is geladen!`);
+
+        bot.commands.set(fileGet.help.name, fileGet);
+
+    })
+
+});
 
 const chalk = require('chalk');
 
@@ -36,59 +65,40 @@ client.on('ready', () => {
 });
 
 // Executed when message event
-client.on('message', async(message) => {
+client.on('message', async message => {
     let commands = botCommands;
-    if(message.author.bot) return;
+    if (message.author.bot) return;
 
     let sender = message.author;
     let senderUsername = sender.username;
     let senderID = sender.id;
     let content = message.content;
 
+    // --== Prefix en Bot Tag ==---
+
+    var prefixes = JSON.parse(fs.readFileSync("./prefixes.json"));
+
+    if (!prefixes[message.guild.id]) {
+        prefixes[message.guild.id] = {
+            prefixes: config.prefix
+        };
+    }
+
+    var prefix = prefixes[message.guild.id].prefixes;
+
     if(message.channel.type === "dm"){
         let time = Date.now();
         app.dmNotification(senderUsername, content, time);
     }
 
-    if(!message.content.startsWith(commandPrefix)) return;
-    let command = message.content.toLowerCase().split(" ")[0];
-    command = command.slice(commandPrefix.length);
+    // ---=== Commands ===---
 
-    let args = message.content.split(" ").slice(1);
-
-    if(command === "help"){
-        app.addLog({
-            "log_type": "info",
-            "log_message": "Command help executed!",
-            "log_date": Date.now(),
-            "log_action": commandPrefix + "help executed"
-        });
-        message.channel.sendMessage("This is the help command!");
-    }
-
-    if(command === "test"){
-        app.addLog({
-            "log_type": "info",
-            "log_message": "Command test executed!",
-            "log_date": Date.now(),
-            "log_action": commandPrefix + "test executed"
-        });
-        message.channel.sendMessage("This is the test command for something you want to test (I think)!");
-    }
-
-
-    if(command === "invites"){
-        /* invites.then(function (a) {
-            console.log(a.filter(invite => !invite.maxAge).first().toString());
-        }); */
-        try {
-            const invites = await message.guild.fetchInvites();
-            message.author.send(invites.filter(invite => !invite.maxAge).first().toString());
-        } catch(err){
-            message.delete();
-            message.author.send("No invite link found! Create one yourself in Discord.")
-        }
-    }
+    if(!message.content.startsWith(prefix)) return;
+    var messageArray = message.content.split(" ");
+    var command = messageArray[0];
+    var arguments = messageArray.slice(1);
+    var commands_getter = bot.commands.get(command.slice(prefix.length));
+    if (commands_getter) commands_getter.run(bot, message, arguments, prefix);
 });
 
 // Change it to config.token when you want to use this project for public usages.
@@ -100,7 +110,7 @@ client.on('message', async(message) => {
 // To use prv_config, create a file called "private_config.json" inside the main directory.
 // .gitignore will ignore this file when you want to commit and push.
 // So nobody can get your bot token.
-client.login(config.token);
+client.login(process.env.TOKEN);
 
 /**
  * Set a game status for the bot.
@@ -234,74 +244,12 @@ exports.setBotStatus = function (/**String*/ status,/**boolean*/maintenanceChang
  * @public
  */
 exports.sendAdminMessage = function (/**String*/ message) {
-    const channel = client.channels.find("name", "dashboard-log");
+  const channel = client.channels.find("name", "dashboard-log");
 
 	channel.send(message);
-    console.log(">> Bot Action > Server Admins Message sent to: " + channel.name);
+  console.log(">> Bot Action > Server Admins Message sent to: " + channel.name);
 	console.log("> Direct invite link to server: currently not available. on development.")
 
-};
-
-
-/**
- * Returns the client object. Mainly for development.
- *
- * @since 0.0.1
- * @return {Object} The Client object.
- * @param t0 - Number of milliseconds of the process is running. Use for that the function now() (npm module performance-now, added in 0.0.6.1)
- * @public
- */
-exports.sendClientObject = (/**Number*/t0) => {
-    let t1 = now();
-    app.addLog({
-        "log_type" : "info",
-        "log_message" : "Output the client object",
-        "log_date" : Date.now(),
-        "log_action" : "function call took " + (t1-t0).toFixed(3) + "ms"
-    });
-    return client;
-};
-
-/**
- * Outputs the client.guilds object. Mainly for development.
- *
- * @since 0.0.3
- * @param t0 - Number of milliseconds of the process is running. Use for that the function now() (npm module performance-now, added in 0.0.6.1)
- * @public
- */
-exports.sendGuildsObject = (/**Number*/t0) => {
-    let guilds = client.guilds;
-    // guilds.map(function (a) {
-    //     console.log(a.name);
-    // })
-    let t1 = now();
-    app.addLog({
-        "log_type" : "info",
-        "log_message" : "Output the guilds (client.guilds) object",
-        "log_date" : Date.now(),
-        "log_action" : "function call took " + (t1-t0).toFixed(3) + "ms"
-    });
-    return guilds;
-};
-/**
- * Outputs the invites of servers where the bot is connected. For production and development.
- *
- * @since 0.0.3
- *
- * @public
- */
-exports.sendInvitesOfServers = function () {
-    let guilds = client.guilds;
-
-    guilds.map(function (a) {
-        a.fetchInvites().then((invites) => {
-            invites.map(function (b) {
-                if(b.maxAge === 0){
-                    console.log(b)
-                }
-            });
-        });
-    })
 };
 
 /**
@@ -322,7 +270,7 @@ exports.maintenance = function (/**boolean*/ maintenanceBool, /**Number*/t0) {
 
         // Set new values to the bot user
         this.setBotStatus("dnd", true);
-        this.setGameStatus("Monkeys are working!", true);
+        this.setGameStatus("Under Maintenance!", true);
         this.sendAdminMessage("Activated Maintenance!");
 
         app.addLog({
@@ -386,7 +334,7 @@ exports.maintenance = function (/**boolean*/ maintenanceBool, /**Number*/t0) {
                 "log_type": "maintenance",
                 "log_message": "Maintenance was enabled!",
                 "log_date": Date.now(),
-                "log_action": "Enabling maintenance took " + (t1 - t0).toFixed(3) + "ms"
+                "log_action": ""
             });
         }, 100);
 
@@ -403,14 +351,14 @@ exports.maintenance = function (/**boolean*/ maintenanceBool, /**Number*/t0) {
         // Set new values to the bot user
         this.setBotStatus("online", true);
         this.setGameStatus("@Xifty", true);
-		this.sendAdminMessage("Deactivated Maintenance!");
+		    this.sendAdminMessage("Deactivated Maintenance!");
 
         setTimeout(function(){
             app.addLog({
                 "log_type" : "info",
                 "log_message" : "Values of bot client changed!",
                 "log_date" : Date.now(),
-                "log_action" : "Changed values: client.user.localPresence.status , client.user.localPresence.game.name"
+                "log_action" : ""
             });
         }, 60);
 
@@ -441,7 +389,7 @@ exports.maintenance = function (/**boolean*/ maintenanceBool, /**Number*/t0) {
                         "log_type": "info",
                         "log_message": "Values in botData.json changed!",
                         "log_date": Date.now(),
-                        "log_action": "Changed property values: maintenance, status, bot_game"
+                        "log_action": ""
                     });
                 }, 80);
             })
