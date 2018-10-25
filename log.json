@@ -1,3 +1,92 @@
 [
-  
+   {
+      "log_type": "New Ticket Created",
+      "log_message": "New Ticket Created by: Daantje - Xifty Developer#6262",
+      "log_date": 1540462769005,
+      "log_action": ""
+   },
+   {
+      "log_type": "New Ticket Created",
+      "log_message": "New Ticket Created by: Daantje - Xifty Developer#6262",
+      "log_date": 1540462856426,
+      "log_action": ""
+   },
+   {
+      "log_type": "New Ticket Created",
+      "log_message": "New Ticket Created by: Daantje - Xifty Developer#6262",
+      "log_date": 1540462906654,
+      "log_action": ""
+   },
+   {
+      "log_type": "New Ticket Created",
+      "log_message": "New Ticket Created by: Daantje - Xifty Developer#6262",
+      "log_date": 1540462965064,
+      "log_action": ""
+   },
+   {
+      "log_type": "New Ticket Created",
+      "log_message": "New Ticket Created by: Daantje - Xifty Developer#6262",
+      "log_date": 1540462994836,
+      "log_action": ""
+   },
+   {
+      "log_type": "New Ticket Created",
+      "log_message": "New Ticket Created by: Daantje - Xifty Developer#6262",
+      "log_date": 1540463058668,
+      "log_action": ""
+   },
+   {
+      "log_type": "Ticket Closed",
+      "log_message": "Ticket Got Closed by: Daantje - Xifty Developer#6262",
+      "log_date": 1540463163015,
+      "log_action": "Ticket Created by: daantje-xifty-developer-6262"
+   },
+   {
+      "log_type": "Ticket Closed",
+      "log_message": "Ticket Got Closed by: Daantje - Xifty Developer#6262",
+      "log_date": 1540463187397,
+      "log_action": "Ticket Created by: daantje-xifty-developer-6262"
+   },
+   {
+      "log_type": "Ticket Closed",
+      "log_message": "Ticket Got Closed by: Daantje - Xifty Developer#6262",
+      "log_date": 1540463428907,
+      "log_action": "Ticket Created by: daantje-xifty-developer-6262"
+   },
+   {
+      "log_type": "Ticket Closed",
+      "log_message": "Ticket Got Closed by: Daantje - Xifty Developer#6262",
+      "log_date": 1540463433578,
+      "log_action": "Ticket Created by: daantje-xifty-developer-6262"
+   },
+   {
+      "log_type": "Ticket Closed",
+      "log_message": "Ticket Got Closed by: Daantje - Xifty Developer#6262",
+      "log_date": 1540463438820,
+      "log_action": "Ticket Created by: daantje-xifty-developer-6262"
+   },
+   {
+      "log_type": "Ticket Closed",
+      "log_message": "Ticket Got Closed by: Daantje - Xifty Developer#6262",
+      "log_date": 1540463444298,
+      "log_action": "Ticket Created by: daantje-xifty-developer-6262"
+   },
+   {
+      "log_type": "Ticket Closed",
+      "log_message": "Ticket Got Closed by: Daantje - Xifty Developer#6262",
+      "log_date": 1540463453574,
+      "log_action": "Ticket Created by: daantje-xifty-developer-6262"
+   },
+   {
+      "log_type": "New Ticket Created",
+      "log_message": "New Ticket Created by: Daantje - Xifty Developer#6262",
+      "log_date": 1540463461833,
+      "log_action": ""
+   },
+   {
+      "log_type": "Ticket Closed",
+      "log_message": "Ticket Got Closed by: Daantje - Xifty Developer#6262",
+      "log_date": 1540463474744,
+      "log_action": "Ticket Created by: daantje-xifty-developer-6262"
+   }
 ]

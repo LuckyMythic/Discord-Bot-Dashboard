@@ -8,6 +8,7 @@ const fs = require("fs");
 const bodyParser = require('body-parser');
 const now = require("performance-now");
 const commands = require("./../discord-bot-sourcefiles/bot-commands.json");
+const tickets = require("./../discord-bot-sourcefiles/tickets.json");
 
 const chalk = require('chalk');
 const ctx = new chalk.constructor({level: 3});
@@ -72,11 +73,9 @@ exports.startApp = function (/**Object*/ client) {
     app.get("/manage", (req, res) => {
         res.render("manage", {
             data: client,
-            maintenanceStatus: maintenanceStatus,
             log: log,
-            commands: commands,
-            botData: botData,
-            prefix: config.prefix
+            tickets: tickets,
+            botData: botData
         })
     });
 
@@ -88,7 +87,7 @@ exports.startApp = function (/**Object*/ client) {
         res.render("botStatusPage", {data: client, botData: botData});
     });
 
-        app.get("/comingSoon", (req, res) => {
+    app.get("/comingSoon", (req, res) => {
         res.render("coming_soon", {data: client, botData: botData});
     });
 
@@ -145,8 +144,8 @@ exports.startApp = function (/**Object*/ client) {
     // You may not heard about the package 'chalk'..
     // It is a package for coloring console output. Colors in outputs are important to give a output more attention when its needed.
 
-    app.listen(config.LISTENING_PORT, '192.168.178.17',function () {
-        console.log(chalk.cyanBright('>> Dashboard is online and running on port ' + config.LISTENING_PORT + '!\n'));
+    app.listen(config.LISTENING_PORT, config.LISTENING_IP, function () {
+        console.log(chalk.cyanBright('>> Dashboard is online and running on port ' + config.LISTENING_PORT + ' and IP ' + config.LISTENING_IP + '!\n'));
     });
 
 };
@@ -239,4 +238,26 @@ exports.addLog = (/**Object*/logData) => {
             if(err) throw err;
         })
     })
+};
+
+/**
+ * Adding tickets to ticketlog.
+ *
+ * @param ticketOwner - In ticketOwner, your giving the owner of the ticket then it will added to the log.
+ * @since 1.0.0
+ * @public
+ */
+
+exports.addTicket = (/**Object*/ticketOwner) => {
+
+  fs.readFile("./discord-bot-sourcefiles/tickets.json", "utf-8", (err, dataTicket) => {
+
+    if (err) { throw err; }
+    let ticket = JSON.parse(dataTicket);
+
+    ticket.push(ticketOwner);
+    fs.writeFile("./discord-bot-sourcefiles/tickets.json", JSON.stringify(ticket, null, 3), (err) => {
+      if(err) throw err;
+    })
+  })
 };

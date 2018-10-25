@@ -1,5 +1,6 @@
 const discord = require("discord.js");
 const app = require("../../api/app");
+const fs = require('fs');
 
 module.exports.run = async (bot, message, args, prefix) => {
 

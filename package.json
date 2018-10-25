@@ -1,6 +1,6 @@
 {
   "name": "discord-bot-dashboard",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A tool for Discord.js bot developers to manage their bot for development and final release usages.",
   "main": "index.js",
   "scripts": {

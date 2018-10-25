@@ -1,5 +1,6 @@
 const discord = require("discord.js");
 const app = require("../../api/app");
+const fs = require('fs');
 
 module.exports.run = async (bot, message, args) => {
 
@@ -62,14 +63,19 @@ module.exports.run = async (bot, message, args) => {
               "log_action": ""
             });
 
+            app.addTicket({
+              "ticketName": userName + "#" + userDiscriminator,
+              "ticketStatus": "opened"
+            });      
+
         }).catch(err => {
-            message.channel.send("Er is iets fout gelopen.");
             console.error(err);
+            message.channel.send("Er is iets fout gelopen.");
         });
 
     }).catch(err => {
-        message.channel.send("Er is iets fout gelopen.");
         console.error(err);
+        message.channel.send("Er is iets fout gelopen.");
     });
 
 }
