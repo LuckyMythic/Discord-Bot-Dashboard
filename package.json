@@ -1,7 +1,7 @@
 {
   "name": "discord-bot-dashboard",
   "version": "1.0.0",
-  "description": "A tool for Discord.js bot developers to manage their bot for development and final release usages.",
+  "description": "Xifty Dashboard",
   "main": "index.js",
   "scripts": {
     "start": "nodemon discord-bot-sourcefiles/main.js"
@@ -17,6 +17,7 @@
     "express": "^4.15.3",
     "express-session": "^1.15.3",
     "jquery": "^3.2.1",
+    "json-config-store": "0.0.1",
     "nodemon": "^1.12.1",
     "performance-now": "^2.1.0",
     "socket.io": "^2.0.3"
