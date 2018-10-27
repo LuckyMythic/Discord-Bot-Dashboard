@@ -1,3 +1,4 @@
+require('dotenv').config();
 const config = require("./../config.json");
 const botData = require("./../botData.json");
 const express = require('express');
@@ -144,7 +145,7 @@ exports.startApp = function (/**Object*/ client) {
     // You may not heard about the package 'chalk'..
     // It is a package for coloring console output. Colors in outputs are important to give a output more attention when its needed.
 
-    app.listen(config.LISTENING_PORT, config.LISTENING_IP, function () {
+    app.listen(config.LISTENING_PORT, process.env.IP, function () {
         console.log(chalk.cyanBright('>> Dashboard is online and running on port ' + config.LISTENING_PORT + ' and IP ' + config.LISTENING_IP + '!\n'));
     });
 
@@ -243,20 +244,19 @@ exports.addLog = (/**Object*/logData) => {
 /**
  * Adding tickets to ticketlog.
  *
- * @param ticketOwner - In ticketOwner, your giving the owner of the ticket then it will added to the log.
+ * @param ticket - In ticket, your giving the ticketInfo of the ticket then it will added to the log.
  * @since 1.0.0
- * @public
  */
 
-exports.addTicket = (/**Object*/ticketOwner) => {
+exports.addTicket = (/**Object*/ticket) => {
 
   fs.readFile("./discord-bot-sourcefiles/tickets.json", "utf-8", (err, dataTicket) => {
 
     if (err) { throw err; }
     let ticket = JSON.parse(dataTicket);
 
-    ticket.push(ticketOwner);
-    fs.writeFile("./discord-bot-sourcefiles/tickets.json", JSON.stringify(ticket, null, 3), (err) => {
+    ticket.push(ticket);
+    fs.writeFileSync("./discord-bot-sourcefiles/tickets.json", JSON.stringify(ticket, null, 3), (err) => {
       if(err) throw err;
     })
   })
