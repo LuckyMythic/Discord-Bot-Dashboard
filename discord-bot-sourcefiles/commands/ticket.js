@@ -18,7 +18,7 @@ module.exports.run = async (bot, message, args) => {
     // Kijk na als ticket al gemaakt is.
     message.guild.channels.forEach((channel) => {
         // Als ticket is gemaakt, zend bericht.
-        if (channel.name == userName.toLowerCase() + "-" + userDiscriminator) {
+        if (channel.name == "ticket-" + message.author.id && channel.parentID === categoryId) {
             message.channel.send("Je hebt al een ticket aangemaakt");
             bool = true;
         }
@@ -35,7 +35,7 @@ module.exports.run = async (bot, message, args) => {
     message.channel.send(embedCreateTicket);
 
     // Maak kanaal en zet in juiste categorie.
-    message.guild.createChannel(userName + "-" + userDiscriminator, "text").then((createdChan) => { // Maak kanaal
+    message.guild.createChannel("ticket-" + message.author.id, "text").then((createdChan) => { // Maak kanaal
 
         createdChan.setParent(categoryId).then((settedParent) => { // Zet kanaal in category.
 
@@ -63,10 +63,16 @@ module.exports.run = async (bot, message, args) => {
               "log_action": ""
             });
 
-            app.addTicket({
-              "ticketName": userName + "#" + userDiscriminator,
-              "ticketStatus": "opened"
-            });      
+            var ticket = JSON.parse(fs.readFileSync("./discord-bot-sourcefiles/tickets.json"));
+
+            ticket[`ticket-${message.author.id}`] = {
+              ticketName: userName + "#" + userDiscriminator,
+              ticketStatus: "opened"
+            };
+
+            fs.writeFileSync("./discord-bot-sourcefiles/tickets.json", JSON.stringify(ticket), err => {
+              if (err) console.log(err);
+            });
 
         }).catch(err => {
             console.error(err);

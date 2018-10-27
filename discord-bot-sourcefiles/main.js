@@ -10,7 +10,7 @@ const botCommands = require("./bot-commands.json");
 const prv_config = require("../private_config.json");
 const now = require("performance-now");
 
-// -= Bot And Commands
+// --== Bot And Commands ==--
 const discord = require("discord.js");
 const bot = new discord.Client();
 bot.commands = new discord.Collection();
@@ -55,12 +55,11 @@ client.on('ready', () => {
     console.log('>> Current status: ' + botDataJson.bot_status);
 	  console.log('>> Current prefix: ' + commandPrefix);
 
-    // Optional start options when you´re starting the bot.
+
     client.user.setGame(botDataJson.bot_game);
 
     client.user.setStatus(botDataJson.bot_status);
 
-    // This is starting the app.
     app.startApp(client);
 });
 
