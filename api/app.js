@@ -146,7 +146,7 @@ exports.startApp = function (/**Object*/ client) {
     // It is a package for coloring console output. Colors in outputs are important to give a output more attention when its needed.
 
     app.listen(config.LISTENING_PORT, process.env.IP, function () {
-        console.log(chalk.cyanBright('>> Dashboard is online and running on port ' + config.LISTENING_PORT + ' and IP ' + config.LISTENING_IP + '!\n'));
+        console.log(chalk.cyanBright('>> Dashboard is online and running on port ' + config.LISTENING_PORT + ' and IP ' + process.env.IP + '!\n'));
     });
 
 };
