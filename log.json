@@ -1,3 +1,26 @@
 [
-  
+   {
+      "log_type": "New Ticket Created",
+      "log_message": "New Ticket Created by: Daantje - Xifty Developer#6262",
+      "log_date": 1540728045805,
+      "log_action": ""
+   },
+   {
+      "log_type": "Ticket Closed",
+      "log_message": "Ticket Got Closed by: Daantje - Xifty Developer#6262",
+      "log_date": 1540728096371,
+      "log_action": "Ticket Created by: Daantje - Xifty Developer#6262"
+   },
+   {
+      "log_type": "New Ticket Created",
+      "log_message": "New Ticket Created by: Maxvos023#0001",
+      "log_date": 1541276926414,
+      "log_action": ""
+   },
+   {
+      "log_type": "Ticket Closed",
+      "log_message": "Ticket Got Closed by: Maxvos023#0001",
+      "log_date": 1541276984259,
+      "log_action": "Ticket Created by: Maxvos023#0001"
+   }
 ]

@@ -1,13 +1,13 @@
 require('dotenv').config();
 var exports = module.exports = {};
 
+// --== Require ==--
 const fs = require("fs");
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const config = require("../config.json");
 const botDataJson = require("./../botData.json");
 const botCommands = require("./bot-commands.json");
-const prv_config = require("../private_config.json");
 const now = require("performance-now");
 
 // --== Bot And Commands ==--
@@ -17,7 +17,7 @@ bot.commands = new discord.Collection();
 
 // --== File Manager (Command Handler) ==--
 
-fs.readdir( __dirname + "/commands/", (err, files) => {
+fs.readdir("./discord-bot-sourcefiles/commands/", (err, files) => {
 
     if (err) console.log(err);
 
@@ -30,7 +30,7 @@ fs.readdir( __dirname + "/commands/", (err, files) => {
 
     jsFiles.forEach((f, i) => {
 
-        var fileGet = require(`${__dirname}/commands/${f}`);
+        var fileGet = require(`./commands/${f}`);
         console.log(`De file ${f} is geladen!`);
 
         bot.commands.set(fileGet.help.name, fileGet);
@@ -100,15 +100,6 @@ client.on('message', async message => {
     if (commands_getter) commands_getter.run(bot, message, arguments, prefix);
 });
 
-// Change it to config.token when you want to use this project for public usages.
-//
-// prv_config is only for personal usage or when youre forking this project,
-// testing some functions with the and make a pull request to the repo.
-// Warning: When you´re making a pull request, check that you didn´t wrote your token inside the config.json.
-//
-// To use prv_config, create a file called "private_config.json" inside the main directory.
-// .gitignore will ignore this file when you want to commit and push.
-// So nobody can get your bot token.
 client.login(process.env.TOKEN);
 
 /**
@@ -122,18 +113,6 @@ client.login(process.env.TOKEN);
  * @public
  */
 exports.setGameStatus = function (/**String*/ game,/**boolean*/maintenanceChange,/**Number*/ t0) {
-
-    // Short explanation why I´m using this boolean maintenanceChange
-    // Currently we´re saving all data from the bot into the file botData.json
-    // When I´m saving the new values which are sent by the maintenance function like the new game status
-    // it will, without the boolean maintenanceChange, execute the fs.readFile function which produce
-    // issues in the botData.json like some typos and other mistakes.
-    // So this is the reason why I use this boolean.
-
-    // When you want to publish your bot for real usage, you can use this file or creating a database
-    // which you must implement here.
-
-    // You have another idea how to store this values? Then make a Pull Request in GitHub! :)
 
     let gameBeforeChanging = client.user.localPresence.game.name;
     client.user.setGame(game);
