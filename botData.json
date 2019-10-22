@@ -1,9 +1,9 @@
 {
    "maintenance": false,
    "statusNotification": true,
-   "statusNotificationText": "Change this text in the botData.json",
+   "statusNotificationText": "Notification",
    "bot_version": "0.5.0",
    "bot_name": "On Development",
-   "bot_game": "Xifty.nl | Development",
+   "bot_game": "Global Banner - In Development",
    "bot_status": "online"
 }
