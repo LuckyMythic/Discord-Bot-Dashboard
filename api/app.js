@@ -105,6 +105,11 @@ exports.startApp = function (/**Object*/ client) {
         maintenanceStatus = false;
         res.redirect("/dashboard");
     });
+    
+    app.get('/ping', (req, res) => {
+	console.log(new Date() + ' Ping!');
+	res.status(200).send('Ping!');
+    });
 
     // ---- POST
 
